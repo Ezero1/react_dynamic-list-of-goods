@@ -7,23 +7,39 @@ import { getAll, get5First, getRed } from './api/goods';
 
 export const App: React.FC = () => {
   const [goods, setGoods] = useState<Good[]>([]);
+  const [error, setError] = useState('');
 
   const loadAllGoods = async () => {
-    const goodsFromServer = await getAll();
+    try {
+      setError('');
+      const goodsFromServer = await getAll();
 
-    setGoods(goodsFromServer);
+      setGoods(goodsFromServer);
+    } catch (e) {
+      setError('Something went wrong');
+    }
   };
 
   const loadFirst5Goods = async () => {
-    const goodsFromServer = await get5First();
+    try {
+      setError('');
+      const goodsFromServer = await get5First();
 
-    setGoods(goodsFromServer);
+      setGoods(goodsFromServer);
+    } catch (e) {
+      setError('Something went wrong');
+    }
   };
 
   const loadRedGoods = async () => {
-    const goodsFromServer = await getRed();
+    try {
+      setError('');
+      const goodsFromServer = await getRed();
 
-    setGoods(goodsFromServer);
+      setGoods(goodsFromServer);
+    } catch (e) {
+      setError('Something went wrong');
+    }
   };
 
   return (
@@ -46,6 +62,7 @@ export const App: React.FC = () => {
         Load red goods
       </button>
 
+      {error && <p className="App__error">{error}</p>}
       <GoodsList goods={goods} />
     </div>
   );
